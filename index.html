@@ -62,6 +62,110 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-netty/day3" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/29/netty/day3/" class="article-date">
+  <time datetime="2018-12-28T15:00:00.000Z" itemprop="datePublished">2018-12-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Netty/">Netty</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/29/netty/day3/">네티 알아보기 3일차 - 채널 파이프라인 + 코덱</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="주요-용어들"><a href="#주요-용어들" class="headerlink" title="주요 용어들"></a>주요 용어들</h2><h3 id="정의"><a href="#정의" class="headerlink" title="정의"></a>정의</h3><ul>
+<li>채널 파이프라인 - 채널에서 발생한 이벤트가 이동하는 통로</li>
+<li>이벤트 핸들러 - 채널 파이프라인을 따라 이동한 이벤트를 처리하는 클래스</li>
+<li>코덱 - 이벤트 핸들러를 상속받아서 구현한 것</li>
+</ul>
+<h2 id="네티의-이벤트-실행"><a href="#네티의-이벤트-실행" class="headerlink" title="네티의 이벤트 실행"></a>네티의 이벤트 실행</h2><p>보통의 연결된 소켓에서 데이터를 받는다면 다음과 같은 로직으로 처리할 것입니다.</p>
+<ol>
+<li>소켓에 데이터가 있는지 확인</li>
+<li>데이터가 있으면 읽는 메서드를 호출 후 데이터 처리</li>
+<li>데이터가 올 때 까지 기달리다가 오면 2번으로 돌아감</li>
+<li>네트워크가 종료되면 관련된 부분 처리</li>
+</ol>
+<p>Netty에서는 다음과 같이 처리합니다.</p>
+<ol>
+<li>데이터가 들어오면 Netty의 이벤트 루프가 채널 파이프라인에 등록된 첫 번째 이벤트 핸들러를 가져온다.</li>
+<li>이벤트 핸들러에 데이터 수신 후 작동할 이벤트가 있는지 확인ㅁ</li>
+<li>가져온 이벤트 핸들러에 관련 메소드가 없으면 이벤트가 처리되거나 핸들러를 다 가져올떄까지 계속 반복</li>
+<li>네트워크가 종료되면 관련된 부분 처리</li>
+</ol>
+<p>즉, 데이터를 입출력 후 처리하는 부분은 이벤트로 관리하고 있으니 이벤트 처리만 해주면 Netty를 쉽게 쓸 수 있습니다.</p>
+<h2 id="채널-파이프라인"><a href="#채널-파이프라인" class="headerlink" title="채널 파이프라인"></a>채널 파이프라인</h2><h3 id="구조"><a href="#구조" class="headerlink" title="구조"></a>구조</h3><p><img src="https://user-images.githubusercontent.com/20100284/50535726-5887c600-0b90-11e9-9a1a-b81707c78ce5.png" alt="netty.io API의 설명"></p>
+<p>저렇게 채널에서 이벤트를 받으면 파이프라인으로 들어가서 이벤트 핸들러에 의해 맞는 이벤트를 처리하게 됩니다.<br>하나의 채널 파이프라인에 여러 이벤트 핸들러를 등록할 수 있습니다.</p>
+<p>다시 에코서버안의 내용을 가져와서 보겠습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.group(loopGroup, workerGroup)</span><br><span class="line">         .channel(NioServerSocketChannel.class)</span><br><span class="line">         .childHandler(new ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">           protected void initChannel(SocketChannel socketChannel) throws Exception &#123;</span><br><span class="line">             ChannelPipeline pipeline = socketChannel.pipeline();</span><br><span class="line">             pipeline.addLast(new EchoServerHandler());</span><br><span class="line">           &#125;</span><br><span class="line">         &#125;);</span><br></pre></td></tr></table></figure>
+<p>해당 코드를 보면 <code>ChannelPipeline pipeline = socketChannel.pipeline()</code>에서 파라미터로 받은 채널안의 파이프라인을 가져오고 다음 <code>pipeline.addLast(new EchoServerHandler())</code> 메소드로 파이프라인의 마지막에 핸들러를 등록하는 것을 볼 수 있습니다.</p>
+<p>그리고 Netty는 소켓채널에 파이프라인을 등록하고 핸들러의 설정을 등록하기 위해서 세 단계 프로세스를 거칩니다.</p>
+<ol>
+<li>클라이언트 연결에 대응하는 채널 객체를 생성하고 빈 채널 파이프라인 객체를 생성하여 소켓 채널에 할당합니다.</li>
+<li>채널에 등록된 <code>ChannelInitializer</code> 인터페이스의 구현체를 가져와서 <code>initChannel</code> 메소드를 호출합니다.</li>
+<li>1에서 등록된 파이프라인 객체를 가져온 후 파이프라인에 입력된 이벤트 핸들러 객체를 등록합니다.</li>
+</ol>
+<p>위의 세 단계가 완료 되면 채널이 등록됐다는 이벤트와 함께 데이터 송수신을 위한 이벤트 처리가 시작된다.</p>
+<h2 id="이벤트-핸들러"><a href="#이벤트-핸들러" class="headerlink" title="이벤트 핸들러"></a>이벤트 핸들러</h2><p>Netty는 비동기 처리를 위해 두가지를 제공합니다. 하나는 퓨처패턴이며 하나는 이벤트 핸들러입니다.<br>여기서는 이벤트 핸들러에 대해 자세히 알아보겠습니다.</p>
+<p>대부분의 이벤트는 한 번만 수행하지만 다시 이벤트를 발생시켜 다른 등록된 핸들러에서 추가로 이벤트 처리를 시킬 수 있습니다.</p>
+<h3 id="채널-인바운드-이벤트"><a href="#채널-인바운드-이벤트" class="headerlink" title="채널 인바운드 이벤트"></a>채널 인바운드 이벤트</h3><p>인바운드 이벤트는 소켓 채널에서 발생한 이벤트 중 상대방이 어떤 동작을 취했을 때 발생합니다.<br>클라이언트가 서버에 접속한 상태에서 서버에게 데이터를 보낼 경우 Netty의 소켓 채널은 데이터를 받았다고 채널 파이프라인에게 데이터 수신 이벤트를 보내고 채널 파이프라인은 등록한 인바운드 이벤트 핸들러를 호출합니다.</p>
+<p><code>ChannelInboundHandler</code>인터페이스를 가지고 인바운드 이벤트를 처리할 수 있습니다.<br>안의 메소드는 다음과 같습니다.</p>
+<p><img src="https://user-images.githubusercontent.com/20100284/50545348-05774700-0c54-11e9-8014-9de540244325.png" alt="Inbound"></p>
+<p>이벤트 호출 순서는 다음과 같습니다. 위에서 아래 순입니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">이벤트 루프에 채널 등록(channelRegistered)</span><br><span class="line"></span><br><span class="line">채널 활성화(channelActive)</span><br><span class="line"></span><br><span class="line">데이터 수신(channelRead)</span><br><span class="line"></span><br><span class="line">데이터 수신 완료(channelReadComplete)</span><br><span class="line"></span><br><span class="line">채널 비활성화(channelInactive)</span><br><span class="line"></span><br><span class="line">이벤트 루프에서 채널 제거(channelUnregistered)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>아마 대부분 메인로직은 데이터 수신~수신완료에 쓰일것이라 보입니다.</p>
+</blockquote>
+<p>이벤트를 간단히 정리해보겠습니다.</p>
+<ul>
+<li><code>channelRegistered</code>의 이벤트 발생 시점은 서버와 클라이언트 모두 처음 소켓 채널이 생성할 때 발생하며, 서버의 경우 클라이언트 소켓 채널이 서버 소켓 채널에 등록될 때 다시 발생합니다.</li>
+<li><code>channelActive</code>의 이벤트는 서버 또는 클라이언트가 연결한 직후 한 번 수행할 작업을 처리하기에 적합합니다.(예를 들면 Hello Client 라던가…)</li>
+<li><code>channelRead</code>와 <code>channelReadComplete</code> 이벤트는 데이터의 수신시 발생하지만 Read는 채널에 데이터가 있을 때 발생하고 Complete는 데이터를 다 읽었을 때 발생합니다.</li>
+<li><code>channelInactive</code>가 발생하면 Read가 불가능합니다.</li>
+<li><code>channelUnregistered</code>가 발생하면 등록했던 소켓에 대한 이벤트 처리가 불가능합니다.</li>
+</ul>
+<h3 id="채널-아웃바운드-이벤트"><a href="#채널-아웃바운드-이벤트" class="headerlink" title="채널 아웃바운드 이벤트"></a>채널 아웃바운드 이벤트</h3><p>대부분 클라이언트 객체에서 처리할 것으로 보이는 아웃바운드입니다.<br>요청을 보내거나 데이터 전송, 소켓 닫기 등의 이벤트를 가지고 있습니다.</p>
+<p><img src="https://user-images.githubusercontent.com/20100284/50545453-6ce2c600-0c57-11e9-8942-ee94220bf243.png" alt="Outbound"></p>
+<p>이벤트를 간단히 정리해보겠습니다.</p>
+<ul>
+<li><code>bind</code> 이벤트는 서버 소켓 채널에 클라이언트가 연결을 대기하는 IP와 포트가 설정되었을 때 발생합니다. 파라미터 중 <code>SocketAddress</code>로 서버에서 사용하는 IP/포트 정보를 확인 가능합니다.</li>
+<li><code>connect</code> 이벤트는 서버에 연결되었을 때 발생합니다. </li>
+<li><code>disconnect</code> 이벤트는 연결이 끊어졌을 때 발생합니다.</li>
+<li><code>close</code> 이벤트는 소켓 채널의 연결이 닫혔을 때 발생합니다.</li>
+<li><code>write</code> 이벤트는 소켓 채널에 데이터가 기록되면 발생합니다.</li>
+<li><code>flush</code> 이벤트는 소켓 채널에 대한 flush 메소드가 호출되면 발생한다고 합니다.</li>
+</ul>
+<h3 id="ChannelHandlerContext"><a href="#ChannelHandlerContext" class="headerlink" title="ChannelHandlerContext"></a>ChannelHandlerContext</h3><p>대부분의 이벤트가 <code>ChannelHandlerContext</code>를 파라미터로 제공하는 것을 볼 수 있습니다. 이 녀석의 경우 채널 파이프라인이나 다른 핸들러의 상호작용을 도와주는 인터페이스입니다.<br>즉, <code>writeAndFlush</code>등의 메서드로 채널에 데이터를 기록하며 <code>close</code> 메소드로 연결종료나 자신이 속한 파이프라인의 동적 수정, 다음 Handler에 통지하는 등 다양한 기능을 수행합니다.</p>
+<h2 id="코덱"><a href="#코덱" class="headerlink" title="코덱"></a>코덱</h2><p>우리가 동영상 플레이어를 설치 시 말하는 그 코덱과 의미가 같습니다. 즉, 전송을 보내는/받은 파일을 특정 루틴에 의해 압축,변환 시키고 해제를 시키는 라이브러리 같은 개념으로 생각하면 되겠죠.<br>Netty 에서는 코덱을 통해 데이터-패킷으로 상호 변환을 합니다. 그리고 Netty의 코덱은 템플릿 메소드 패턴을 사용했다고 합니다.(실행순서만 위에서 설정하고 실제 구현은 하위에서)</p>
+<p>사용자가 직접 만들 수 있지만 대부분의 프로토콜은 Netty에서 기본제공하므로 가져다가 쓰시는 것을 추천합니다.<br>기본 예제는 io.netty.example 패키지에 포함되어있다고 합니다.</p>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>이벤트가 참 많네요. 코덱까지 세트로 제공하니 쉽게 데이터를 주고 받을 수 있을 것 같은 느낌입니다.<br>3일차를 마치고 4일차로 가보겠습니다. 점점 양이 많아지는것을 느낍니다.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/29/netty/day3/" data-id="cjq974xu20003oxminpo36l3t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-netty/day2" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/25/netty/day2/" class="article-date">
@@ -80,7 +184,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/25/netty/day2/">네티 알아보기 2일차</a>
+      <a class="article-title" href="/2018/12/25/netty/day2/">네티 알아보기 2일차 - 부트스트랩</a>
     </h1>
   
 
@@ -101,7 +205,7 @@
 <li>SCTP는 TCP 및 UDP는 제공하지 않는 추가 보안 기능을 제공합니다. SCTP에서 연결 설정 시 자원 할당은 쿠키 교환 메커니즘을 사용하여 클라이언트의 ID를 검증하기 전까지 지연되어 서비스 거부 공격 가능성을 줄입니다.</li>
 </ul>
 <h3 id="프로토콜간-차이점"><a href="#프로토콜간-차이점" class="headerlink" title="프로토콜간 차이점"></a>프로토콜간 차이점</h3><p>표 하나로 설명합니다.</p>
-<p><img src="https://user-images.githubusercontent.com/20100284/50411940-77f8b900-0847-11e9-89af-4f0dc106a21b.png" alt="2018-12-25 13-17-21"></p>
+<p><img src="https://user-images.githubusercontent.com/20100284/50411940-77f8b900-0847-11e9-89af-4f0dc106a21b.png" alt="차이점(어디서 가져온지 기억이 잘..)"></p>
 <h2 id="부트스트랩이란"><a href="#부트스트랩이란" class="headerlink" title="부트스트랩이란?"></a>부트스트랩이란?</h2><p>제가 아는 웹 프론트엔드 프레임워크가 아니라 Netty에서 가장 처음 수행되는 부분으로써 동작과 설정을 지정하여 가장 기본이 되는 부분이라 합니다.<br>API Doc의 Bootstrap 클래스에서는 다음과 같이 얘기하고 있습니다.</p>
 <blockquote>
 <p>부트스트랩은 채널을 쉽게 사용할 수 있도록 해주는 것</p>
@@ -118,7 +222,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">EventLoopGroup loopGroup = new NioEventLoopGroup(1);</span><br><span class="line">EventLoopGroup workerGroup = new NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">ServerBootstrap bootstrap = new ServerBootstrap();</span><br><span class="line">bootstrap.group(loopGroup, workerGroup)</span><br><span class="line">    .channel(NioServerSocketChannel.class)</span><br><span class="line">    .childHandler(new ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                    protected void initChannel(SocketChannel socketChannel) throws Exception &#123;</span><br><span class="line">                        ChannelPipeline pipeline = socketChannel.pipeline();</span><br><span class="line">                        pipeline.addLast(new EchoServerHandler());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">ChannelFuture f =bootstrap.bind(8888).sync();</span><br><span class="line">f.channel().closeFuture().sync();</span><br></pre></td></tr></table></figure>
 <p>먼저 <code>new NioEventLoopGroup()</code>를 보면 생성자의 인수가 없는데 이럴 경우 사용할 스레드 수를 하드웨어의 스레드 수로 한다고 합니다.<br>스레드 수는 하드웨어가 가지고 있는 CPU 코어 수의 2배를 사용한다 합니다. 4C 8T의 경우 하드웨어(CPU)에서 지원하는 8T의 두 배인 16개죠. 그리고 loopGroup 변수는 사용할 스레드 수를 1개로 지정하였습니다.<br><code>ServerBootstrap.group()</code> 메소드는 NioEventLoopGroup을 인수로 받는데 첫번째는 연결에 사용할 스레드이고 두 번째 인수는 연결된 소켓에 대한 I/O처리를 담당합니다.<br>저는 연결은 한번만 하고 끝나니 하나만 사용했고, I/O의 경우 어떻게 몇개가 들어올지 모르니 여러개의 스레드를 사용했다고 생각했습니다.<br><code>.channel()</code> 메소드는 API명세에 따르면 Channel 인터페이스를 구현한 객체나 채널팩토리를 사용할 수 있고 이 예제에서는 NioServerSocketChannel 클래스를 설정했기 때문에 Nio모드를 사용합니다.<br><code>.childHandler</code> 메소드는 API에 채널에서 요청이 왔을 때 제공할 ChannelHandler를 설정합니다.</p>
 <p>연결 방법을 바꾸고 싶으면 <code>.channel()</code> 부분에서 제공하는 클래스를 변경하면 입출력 모드를 쉽게 바꿀 수 있도록 Netty에서는 제공하고 있습니다.<br>지원하는 클래스는 다음과 같습니다.(안보이면 클릭하셔서 보시기 바랍니다)</p>
-<p><img src="https://user-images.githubusercontent.com/20100284/50411468-8ba22080-0843-11e9-920e-54fe248d67a7.png" alt="2018-12-25 12-48-17"></p>
+<p><img src="https://user-images.githubusercontent.com/20100284/50411468-8ba22080-0843-11e9-920e-54fe248d67a7.png" alt="지원클래스 with Netty"></p>
 <p>이 중 Epoll은 *nix에서 동작한다고 합니다.</p>
 <h3 id="부트스트랩-내-간단한-API-소개"><a href="#부트스트랩-내-간단한-API-소개" class="headerlink" title="부트스트랩 내 간단한 API 소개"></a>부트스트랩 내 간단한 API 소개</h3><p>channelFactory - 소켓 입출력 모드 설정</p>
 <p>channel 메소드와 동일한 기능을 수행합니다.</p>
@@ -139,7 +243,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/25/netty/day2/" data-id="cjq37q7j3000120mi1n1g5uxh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/25/netty/day2/" data-id="cjq974xtz0001oxmi1jlkodv8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -167,7 +271,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/24/netty/day1/">네티 알아보기 1일차</a>
+      <a class="article-title" href="/2018/12/24/netty/day1/">네티 알아보기 1일차 - 기본 환경설정</a>
     </h1>
   
 
@@ -213,12 +317,13 @@
 <p>블로킹의 경우 관공서 민원실이나 은행 업무처리정도로 생각하면 쉬울 것 같고 논 블로킹의 경우 공항이나 티켓교환소의 인포메이션 센터 정도로 생각하면 되지 않을까 싶습니다.<br>은행이나 관공서의 경우 1:1로 고객의 모든 일이 끝날때 까지 붙어서 처리하고 인포메이션 센터는 나에게 정보를 알려주고 내가 이해하는 동안 다른사람이 물어보면 바로 그 사람에게 응답을 해주고 내가 다시 질문 할 경우 알려주는 등 동시에 여러가지 여러명에게 업무를 한다고 생각하면 쉬울 것 같습니다.</p>
 <h2 id="이벤트기반-프로그래밍"><a href="#이벤트기반-프로그래밍" class="headerlink" title="이벤트기반 프로그래밍"></a>이벤트기반 프로그래밍</h2><p>내가 설정한 이벤트가 발생하면 이벤트에 직접 등록한 루틴이 실행되는 방식입니다.<br>즉, 이벤트 발생 -&gt; 이벤트를 받아서 처리할 것이 있는지 검색 -&gt; 실행 순이겠죠.</p>
 <p>Netty에서는 ChannelInboundHandlerAdapter로 여러 이벤트 기반 프로그래밍을 지원합니다.<br>여기서 채널은 소켓 채널입니다.</p>
+<h2 id="Future-java"><a href="#Future-java" class="headerlink" title="Future(java)"></a>Future(java)</h2><p>간단하게 알아보면 어떠한 로직을 처리했을때 처리한 값을 받아 작업하는 방식입니다. 비동기에서 쓰이며 결과값을 얻을 때 까지 필요에 의해 블록처리가 될 수 있습니다.<br>작업이 정상적으로 완료/취소 되었는지 확인을 위해 방법을 제공하며 성공적으로 수행시 <code>get</code> 취소했을경우 <code>cancel</code> 메소드로 수행됩니다.(인터페이스 기준)</p>
 <p>여기서 1일차를 마치겠습니다. 2일차에서 만나요.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/24/netty/day1/" data-id="cjq37q7iz000020mit5zm9367" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/24/netty/day1/" data-id="cjq974xtv0000oxmisvaq552o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -266,7 +371,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/23/about/about/" data-id="cjq37q7j6000320mixmjcsri3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/23/about/about/" data-id="cjq974xu30004oxmi1knalpin" class="article-share-link">Share</a>
       
       
     </footer>
@@ -314,11 +419,15 @@
       <ul>
         
           <li>
-            <a href="/2018/12/25/netty/day2/">네티 알아보기 2일차</a>
+            <a href="/2018/12/29/netty/day3/">네티 알아보기 3일차 - 채널 파이프라인 + 코덱</a>
           </li>
         
           <li>
-            <a href="/2018/12/24/netty/day1/">네티 알아보기 1일차</a>
+            <a href="/2018/12/25/netty/day2/">네티 알아보기 2일차 - 부트스트랩</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/24/netty/day1/">네티 알아보기 1일차 - 기본 환경설정</a>
           </li>
         
           <li>

@@ -5,20 +5,20 @@
   
 
   
-  <title>네티 알아보기 2일차 | 잊을것 같으면 블로그</title>
+  <title>네티 알아보기 2일차 - 부트스트랩 | 잊을것 같으면 블로그</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="2일차를 신나게 달려봅시다. 3장프로토콜아무래도 통신관련 프레임워크기 때문에 통신 프로토콜을 모를 수도 없어서 간단하게 알아보도록 하겠습니다. TCPTCP의 경우 연결을 확인하고 메시지를 전송하는 것을 보장하는 특성을 가지고 있습니다.메시지를 받을때마다 받았다는 신호를 보내 서로 전송되었고 받았는지 확인하죠. UDPUDP는 메시지는 전송하지만 받았는지 전혀">
 <meta property="og:type" content="article">
-<meta property="og:title" content="네티 알아보기 2일차">
+<meta property="og:title" content="네티 알아보기 2일차 - 부트스트랩">
 <meta property="og:url" content="http://yoursite.com/2018/12/25/netty/day2/index.html">
 <meta property="og:site_name" content="잊을것 같으면 블로그">
 <meta property="og:description" content="2일차를 신나게 달려봅시다. 3장프로토콜아무래도 통신관련 프레임워크기 때문에 통신 프로토콜을 모를 수도 없어서 간단하게 알아보도록 하겠습니다. TCPTCP의 경우 연결을 확인하고 메시지를 전송하는 것을 보장하는 특성을 가지고 있습니다.메시지를 받을때마다 받았다는 신호를 보내 서로 전송되었고 받았는지 확인하죠. UDPUDP는 메시지는 전송하지만 받았는지 전혀">
 <meta property="og:locale" content="ko-kr">
 <meta property="og:image" content="https://user-images.githubusercontent.com/20100284/50411940-77f8b900-0847-11e9-89af-4f0dc106a21b.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/20100284/50411468-8ba22080-0843-11e9-920e-54fe248d67a7.png">
-<meta property="og:updated_time" content="2018-12-25T04:32:41.721Z">
+<meta property="og:updated_time" content="2018-12-30T00:59:14.912Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="네티 알아보기 2일차">
+<meta name="twitter:title" content="네티 알아보기 2일차 - 부트스트랩">
 <meta name="twitter:description" content="2일차를 신나게 달려봅시다. 3장프로토콜아무래도 통신관련 프레임워크기 때문에 통신 프로토콜을 모를 수도 없어서 간단하게 알아보도록 하겠습니다. TCPTCP의 경우 연결을 확인하고 메시지를 전송하는 것을 보장하는 특성을 가지고 있습니다.메시지를 받을때마다 받았다는 신호를 보내 서로 전송되었고 받았는지 확인하죠. UDPUDP는 메시지는 전송하지만 받았는지 전혀">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/20100284/50411940-77f8b900-0847-11e9-89af-4f0dc106a21b.png">
   
@@ -85,7 +85,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      네티 알아보기 2일차
+      네티 알아보기 2일차 - 부트스트랩
     </h1>
   
 
@@ -106,7 +106,7 @@
 <li>SCTP는 TCP 및 UDP는 제공하지 않는 추가 보안 기능을 제공합니다. SCTP에서 연결 설정 시 자원 할당은 쿠키 교환 메커니즘을 사용하여 클라이언트의 ID를 검증하기 전까지 지연되어 서비스 거부 공격 가능성을 줄입니다.</li>
 </ul>
 <h3 id="프로토콜간-차이점"><a href="#프로토콜간-차이점" class="headerlink" title="프로토콜간 차이점"></a>프로토콜간 차이점</h3><p>표 하나로 설명합니다.</p>
-<p><img src="https://user-images.githubusercontent.com/20100284/50411940-77f8b900-0847-11e9-89af-4f0dc106a21b.png" alt="2018-12-25 13-17-21"></p>
+<p><img src="https://user-images.githubusercontent.com/20100284/50411940-77f8b900-0847-11e9-89af-4f0dc106a21b.png" alt="차이점(어디서 가져온지 기억이 잘..)"></p>
 <h2 id="부트스트랩이란"><a href="#부트스트랩이란" class="headerlink" title="부트스트랩이란?"></a>부트스트랩이란?</h2><p>제가 아는 웹 프론트엔드 프레임워크가 아니라 Netty에서 가장 처음 수행되는 부분으로써 동작과 설정을 지정하여 가장 기본이 되는 부분이라 합니다.<br>API Doc의 Bootstrap 클래스에서는 다음과 같이 얘기하고 있습니다.</p>
 <blockquote>
 <p>부트스트랩은 채널을 쉽게 사용할 수 있도록 해주는 것</p>
@@ -123,7 +123,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">EventLoopGroup loopGroup = new NioEventLoopGroup(1);</span><br><span class="line">EventLoopGroup workerGroup = new NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">ServerBootstrap bootstrap = new ServerBootstrap();</span><br><span class="line">bootstrap.group(loopGroup, workerGroup)</span><br><span class="line">    .channel(NioServerSocketChannel.class)</span><br><span class="line">    .childHandler(new ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                    protected void initChannel(SocketChannel socketChannel) throws Exception &#123;</span><br><span class="line">                        ChannelPipeline pipeline = socketChannel.pipeline();</span><br><span class="line">                        pipeline.addLast(new EchoServerHandler());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">ChannelFuture f =bootstrap.bind(8888).sync();</span><br><span class="line">f.channel().closeFuture().sync();</span><br></pre></td></tr></table></figure>
 <p>먼저 <code>new NioEventLoopGroup()</code>를 보면 생성자의 인수가 없는데 이럴 경우 사용할 스레드 수를 하드웨어의 스레드 수로 한다고 합니다.<br>스레드 수는 하드웨어가 가지고 있는 CPU 코어 수의 2배를 사용한다 합니다. 4C 8T의 경우 하드웨어(CPU)에서 지원하는 8T의 두 배인 16개죠. 그리고 loopGroup 변수는 사용할 스레드 수를 1개로 지정하였습니다.<br><code>ServerBootstrap.group()</code> 메소드는 NioEventLoopGroup을 인수로 받는데 첫번째는 연결에 사용할 스레드이고 두 번째 인수는 연결된 소켓에 대한 I/O처리를 담당합니다.<br>저는 연결은 한번만 하고 끝나니 하나만 사용했고, I/O의 경우 어떻게 몇개가 들어올지 모르니 여러개의 스레드를 사용했다고 생각했습니다.<br><code>.channel()</code> 메소드는 API명세에 따르면 Channel 인터페이스를 구현한 객체나 채널팩토리를 사용할 수 있고 이 예제에서는 NioServerSocketChannel 클래스를 설정했기 때문에 Nio모드를 사용합니다.<br><code>.childHandler</code> 메소드는 API에 채널에서 요청이 왔을 때 제공할 ChannelHandler를 설정합니다.</p>
 <p>연결 방법을 바꾸고 싶으면 <code>.channel()</code> 부분에서 제공하는 클래스를 변경하면 입출력 모드를 쉽게 바꿀 수 있도록 Netty에서는 제공하고 있습니다.<br>지원하는 클래스는 다음과 같습니다.(안보이면 클릭하셔서 보시기 바랍니다)</p>
-<p><img src="https://user-images.githubusercontent.com/20100284/50411468-8ba22080-0843-11e9-920e-54fe248d67a7.png" alt="2018-12-25 12-48-17"></p>
+<p><img src="https://user-images.githubusercontent.com/20100284/50411468-8ba22080-0843-11e9-920e-54fe248d67a7.png" alt="지원클래스 with Netty"></p>
 <p>이 중 Epoll은 *nix에서 동작한다고 합니다.</p>
 <h3 id="부트스트랩-내-간단한-API-소개"><a href="#부트스트랩-내-간단한-API-소개" class="headerlink" title="부트스트랩 내 간단한 API 소개"></a>부트스트랩 내 간단한 API 소개</h3><p>channelFactory - 소켓 입출력 모드 설정</p>
 <p>channel 메소드와 동일한 기능을 수행합니다.</p>
@@ -144,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/25/netty/day2/" data-id="cjq37q7j3000120mi1n1g5uxh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/25/netty/day2/" data-id="cjq974xtz0001oxmi1jlkodv8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,10 +153,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2018/12/29/netty/day3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          네티 알아보기 3일차 - 채널 파이프라인 + 코덱
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/12/24/netty/day1/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">네티 알아보기 1일차</div>
+      <div class="article-nav-title">네티 알아보기 1일차 - 기본 환경설정</div>
     </a>
   
 </nav>
@@ -200,11 +209,15 @@
       <ul>
         
           <li>
-            <a href="/2018/12/25/netty/day2/">네티 알아보기 2일차</a>
+            <a href="/2018/12/29/netty/day3/">네티 알아보기 3일차 - 채널 파이프라인 + 코덱</a>
           </li>
         
           <li>
-            <a href="/2018/12/24/netty/day1/">네티 알아보기 1일차</a>
+            <a href="/2018/12/25/netty/day2/">네티 알아보기 2일차 - 부트스트랩</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/24/netty/day1/">네티 알아보기 1일차 - 기본 환경설정</a>
           </li>
         
           <li>
