@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>타입스크립트 1 | 잊을것 같으면 블로그</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="책 : 타입스크립트 퀵스타트 ECMA스크립트 이론ECMA = 유럽 컴퓨터 제조사 연합의 약자로 스크립트의 표준을 만들고 관리하는 단체로 스크립트 외 C#이나 다트 등의 언어표준과 JSON, XML등의 데이터 교환 표준도 관리하고 있습니다. ECMA 스크립트 발전연도  1997 : ES1 1998 : ES2 1999 : ES3 2008 : ES4 2009 :">
+<meta property="og:type" content="article">
+<meta property="og:title" content="타입스크립트 1">
+<meta property="og:url" content="http://yoursite.com/2019/01/12/typescript/day1/index.html">
+<meta property="og:site_name" content="잊을것 같으면 블로그">
+<meta property="og:description" content="책 : 타입스크립트 퀵스타트 ECMA스크립트 이론ECMA = 유럽 컴퓨터 제조사 연합의 약자로 스크립트의 표준을 만들고 관리하는 단체로 스크립트 외 C#이나 다트 등의 언어표준과 JSON, XML등의 데이터 교환 표준도 관리하고 있습니다. ECMA 스크립트 발전연도  1997 : ES1 1998 : ES2 1999 : ES3 2008 : ES4 2009 :">
+<meta property="og:locale" content="ko-kr">
+<meta property="og:image" content="https://raw.githubusercontent.com/wiki/Microsoft/TypeScript/images/architecture.png">
+<meta property="og:updated_time" content="2019-01-12T06:35:49.236Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="타입스크립트 1">
+<meta name="twitter:description" content="책 : 타입스크립트 퀵스타트 ECMA스크립트 이론ECMA = 유럽 컴퓨터 제조사 연합의 약자로 스크립트의 표준을 만들고 관리하는 단체로 스크립트 외 C#이나 다트 등의 언어표준과 JSON, XML등의 데이터 교환 표준도 관리하고 있습니다. ECMA 스크립트 발전연도  1997 : ES1 1998 : ES2 1999 : ES3 2008 : ES4 2009 :">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wiki/Microsoft/TypeScript/images/architecture.png">
+  
+    <link rel="alternate" href="/atom.xml" title="잊을것 같으면 블로그" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">잊을것 같으면 블로그</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-typescript/day1" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/12/typescript/day1/" class="article-date">
+  <time datetime="2019-01-11T15:00:00.000Z" itemprop="datePublished">2019-01-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      타입스크립트 1
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>책 : 타입스크립트 퀵스타트</p>
+<h2 id="ECMA스크립트-이론"><a href="#ECMA스크립트-이론" class="headerlink" title="ECMA스크립트 이론"></a>ECMA스크립트 이론</h2><p>ECMA = 유럽 컴퓨터 제조사 연합의 약자로 스크립트의 표준을 만들고 관리하는 단체로 스크립트 외 C#이나 다트 등의 언어표준과 JSON, XML등의 데이터 교환 표준도 관리하고 있습니다.</p>
+<p>ECMA 스크립트 발전연도</p>
+<ul>
+<li>1997 : ES1</li>
+<li>1998 : ES2</li>
+<li>1999 : ES3</li>
+<li>2008 : ES4</li>
+<li>2009 : ES5</li>
+<li>2013 : ES6(ES2015)</li>
+<li>2016 : ES7(ES2016)</li>
+<li>2017 : ES8(ES2017)</li>
+<li>2018 : ES9(ES2018)</li>
+</ul>
+<h2 id="타입스크립트"><a href="#타입스크립트" class="headerlink" title="타입스크립트"></a>타입스크립트</h2><p>MS에서 개발하고 관리하는 오픈소스 프로그래밍 언어로 브라우저, OS등에 상관없이 동작합니다.<br>자바스크립트의 상위 호환으로 ECMA스크립트의 최신 표준을 지원하며 자바스크립트를 보완해 변수나 함수 등에 명시적으로 타입을 명시해 안전성을 높이고 모듈화, 객체지향등 최신 트렌드도 충분히 따를 수 있도록 합니다.</p>
+<h3 id="역사"><a href="#역사" class="headerlink" title="역사"></a>역사</h3><p>자바스크립트는 대규모 어플리케이션을 개발하는 데 있어 불편하다는 불만에 대응하기 위한 목적으로 발명되었습니다.<br>델파이의 창시자이자 C# 언어의 설계를 맡고 있는 앤더스 헤일스버그라는 사람이 이끌고 있습니다. 그 외 난다긴다하는 수많은 사람들이 함께하고 있습니다.</p>
+<p>2012년 10월에 첫 출시되어 ECMA스크립트 발표 주기에 맞춰 빠르게 업데이트하면서 최신으로 항상 유지하고 있으며 2014년에 타입스크립트 만을 위한 컴파일러가 등장했으며 2.x부터 서드파티 라이브러리를 쉽게 사용할 수 있도록 개선되어졌습니다.<br>그리고 자바스크립트의 보완 도구로써뿐 아니라 개발을 지원하는 각종 환경(컴파일러 타입 검사, ES5, ES3 하위호환성 등)도 계속 지원하고 있습니다.</p>
+<h3 id="특징"><a href="#특징" class="headerlink" title="특징"></a>특징</h3><p>동적 언어인 자바스크립트와 달리 정적 언어기 때문에 시간은 들지만 안전성을 보장합니다.<br>정확히 말하면 타입 안전성을 갖는 타입스크립트를 컴파일하면 자바스크립트로 변화하기 때문에 안전성과 속도 두 가지를 전부 잡았다고 볼 수 있습니다.<br>즉, 자바스크립트를 완전히 대체할 수는 없으나 보완하는 역할로 쓰고 있습니다.</p>
+<blockquote>
+<p>TypeScript = JavaScript + Type</p>
+</blockquote>
+<p>확장된 자바스크립트로써 모듈화, 객체지향, 구조화등 대규모 어플리케이션을 만들 수 있도록 여러가지를 갖추고 있습니다.</p>
+<ul>
+<li>모듈과 네임스페이스 지원</li>
+</ul>
+<p>모듈을 선언하거나 호출할 수 있도록 하는 방식을 지원합니다.<br>변수 -&gt; 함수 -&gt; 클래스로 원하는 크기에 맞춰 사용할 수 있으며 영역 구분을 위해 네임스페이스를 지원합니다.</p>
+<ul>
+<li>클래스와 네임스페이스 지원</li>
+</ul>
+<p>ES6의 클래스 기능에 덧붙여 인터페이스를 지원하으로써 객체지향 프로그래밍 환경을 제공합니다.<br>이러한 특징으로 인해 평소 익숙한 자바나 C#등과 같은방식으로 프로그래밍 할 수 있습니다.(interface, implements, extends …)</p>
+<p>기존 언어와 차이점은 다음과 같습니다.</p>
+<ul>
+<li>ES6에 없던 인터페이스를 지원합니다.</li>
+<li>자바는 다중 생성자를 선언할 수 있지만 타입스크립트는 하나만 지원합니다.</li>
+<li>타입스크립트는 자바와 달리 디폴트 초기화 매개변수와 선택 매개변수를 선언할 수 있습니다.</li>
+</ul>
+<ul>
+<li>타입 시스템 지원</li>
+</ul>
+<p>실행시 변수 타입이 선언되던 JS와 달리 엄격한 타입을 지정하여 특정한 타입만 받을 수 있도록 합니다.<br>string으로 선언하면 무조건 string만 받을 수 있습니다.</p>
+<p>만약 string으로 컴파일하게 되면 타입검사 -&gt; 어노테이션 제거 -&gt; 자바스크립트 변수로 출력하는 과정을 거치게 됩니다. 그리고 변수가 의도한 타입이 아닐 경우 이를 체크하기 위해 필요했던 루틴을 제거하여 성능이나 코드상의 이득을 볼 수 있습니다.</p>
+<h3 id="아키텍처"><a href="#아키텍처" class="headerlink" title="아키텍처"></a>아키텍처</h3><p>언어를 좀 더 이해하려면 아키텍처를 볼 필요가 있다고 합니다. 전체 아키텍처는 다음과 같습니다.</p>
+<p><img src="https://raw.githubusercontent.com/wiki/Microsoft/TypeScript/images/architecture.png" alt="Architectural overview."></p>
+<ul>
+<li>코어 타입스크립트 컴파일러</li>
+</ul>
+<p>타입스크립트 아키텍처는 언어 변환 기능을 수행하는 코어 타입스크립트 컴파일러를 기반으로 합니다.</p>
+<p>이 컴파일러는 파서, 바인더, 타입체커, 에미터, 전처리기로 구성되어 있습니다.</p>
+<ul>
+<li>파서 : 소스코드를 해석해 구문 트리를 만들고 이걸 해석해 중복 내용을 제거한 추상 구문트리를 만듭니다.</li>
+<li>바인더 : 인터페이스나 모듈등에 선언이 있을 때 이러한 선언을 심벌(symbol)로 보고 규칙을 정의합니다.</li>
+<li>타입 체커 : 타입이 적절한지 체크하고 구문을 분석합니다.</li>
+<li>에미터 : <em>.js -&gt; </em>.js, <em>.d.ts, </em>.js.map</li>
+<li>전처리기 : 파일에 선언된 import문이나 <code>&lt;reference path=경로&gt;</code>등의 외부 호출 선언이 있을 때 파일을 가져와 파일목록을 생성합니다. 즉, 컴파일러는 전처리기에서 가져온 파일을 이용해 컴파일을 수행합니다.</li>
+</ul>
+<ul>
+<li>언어 서비스</li>
+</ul>
+<p>코드를 컴파일해서 편집기에서 필요한 기능을 제공합니다.</p>
+<ul>
+<li>독립 서버</li>
+</ul>
+<p>컴파일러와 언어 서비스 같은 하위 레이어를 래핑해서 JSON 형식을 통해 외부에 정보를 노출할 수 있게 합니다.<br>tsserver로 불리며 응용 개발에서는 직접 다룰일이 없으며 플러그인을 개발할 때 사용할 수 있습니다.</p>
+<ul>
+<li>편집기</li>
+</ul>
+<p>하위 레이어의 요소를 모두 고려해 동작하는 최종 응용 단계의 어플리케이션입니다.</p>
+<ul>
+<li>컴파일러</li>
+</ul>
+<ul>
+<li>컴파일링 : 한 언어의 소스코드를 다른 언어로 바꾸는 것</li>
+<li>트랜스파일링 : 한 언어의 소스코드를 비슷한 추상화 수준의 다른 언어로 바꾸는 것</li>
+</ul>
+<p>타입스크립트의 경우 자바스크립트로 바꾸니까 컴파일이라고도 할 수 있지만 같은 추상화 수준의 자바스크립트로도 바꾸기 때문에 트랜스파일링이라고도 할 수 있습니다.<br>대부분 많이 쓰는 언어인 컴파일러를 주로 사용하는 편입니다.</p>
+<p>호출자는 <code>tsc</code>를 호출하여 사용할 수 있습니다.</p>
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><p>먼저 node.js를 능력껏 설치합니다.</p>
+<p>그리고 콘솔창을 출력해서 다음과 같이 입력합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g typescript</span><br></pre></td></tr></table></figure>
+<p>버전확인은 다음과 같이 합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc -v</span><br></pre></td></tr></table></figure>
+<p>업데이트는 npm을 사용해 다음과 같이 설치합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm outdated -g typescript</span><br></pre></td></tr></table></figure>
+<p>타입스크립트의 확장자는 .ts이며 컴파일은 다음과 같이 진행합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc 파일명.ts</span><br></pre></td></tr></table></figure>
+<p>컴파일하면 js파일이 생성되기 때문에 실행의 경우 <code>node 파일명.js</code>로 하시면 됩니다.</p>
+<p>만약, 바벨을 이용한 하위 스크립트로 변환하기 위해서는 다음과 같이 사용합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc 파일명.ts -t 버전명</span><br></pre></td></tr></table></figure>
+<p>버전명에는 ES3, 5, 6, 2016, 2017, Next(항상최신버전)등을 사용할 수 있습니다. 기본값은 ES3 입니다.</p>
+<h3 id="tsconfig-json"><a href="#tsconfig-json" class="headerlink" title="tsconfig.json"></a>tsconfig.json</h3><p>프로젝트가 커지다 보면 어떤 특징을 이용해 컴파일하는지 각종 설정 등 복잡해 지는 경우가 많습니다.<br>그래서 tsconfig.json을 사용하여 보관하면 편하게 컴파일 할 수 있습니다.</p>
+<p>중요한점은 tsconfig.json이 있는 폴더가 루트폴더가 되기 때문에 경로 설정에 주의하도록 합니다.<br>초기 파일생성은 <code>tsc --init</code>으로 간단하게 만들 수 있습니다. 만들게 되면 몇가지 옵션이 보이는데 책에 나와 있는 옵션은 다음과 같습니다.</p>
+<ul>
+<li>sourceMap : 컴파일 후 맵파일의 생성여부 설정</li>
+<li>strict : 엄격 타입 검사 모드 설정</li>
+<li>noImplicitAny : any 타입으로 암묵적 형변환 여부를 결정</li>
+<li>esModuleInterop : ECMA스크립트 모듈과 상호 운용성을 가능하게 하는 속성으로 true면 CommonJS모듈을 디폴트 처럼 호출할 수 있습니다.</li>
+</ul>
+<p>나머지는 Docs를 찾아봅시다..</p>
+<h2 id="변수와-기본타입"><a href="#변수와-기본타입" class="headerlink" title="변수와 기본타입"></a>변수와 기본타입</h2><h3 id="변수"><a href="#변수" class="headerlink" title="변수"></a>변수</h3><p>js의 var를 사용합니다만 뒤에 타입이 붙습니다. 기본사용법은 다음과 같습니다 : </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var(let,const) 변수명: 타입명 = &apos;값&apos;;</span><br></pre></td></tr></table></figure>
+<p>예를 들면 <code>let myNickName: string = &#39;happy&#39;;</code>와 같이 쓰면 되겠습니다.</p>
+<p>존재하는 타입은 기본, 객체, 기타 타입을 지원합니다.<br>기본 타입의 경우 string, number ,boolean, symbol, enum, 문자열 리터럴이 존재합니다.<br>객체 타입의 경우 Array, Tuple, Function, Constructor(생성자), Class, Interface가 존재합니다.<br>기타 타입의 경우 union, intersection, 특수 타입이 존재합니다.</p>
+<p>위의 타입 외 변형된 타입도 존재하며 나중에 배울 것입니다.</p>
+<h3 id="기본타입"><a href="#기본타입" class="headerlink" title="기본타입"></a>기본타입</h3><p>자바스크립트타입 포함 여러 가지 타입을 지원합니다.</p>
+<ul>
+<li>Symbol</li>
+</ul>
+<p>ES6에서 추가된 기능으로써 객체 속성(프로퍼티)의 유일한 식별자로 사용됩니다.</p>
+<ul>
+<li>enum</li>
+</ul>
+<p>자바나 C#의 enum과 비슷합니다. 초기값으로 타입스크립트 2.4부터는 문자열도 할당이 가능합니다.</p>
+<ul>
+<li>any</li>
+</ul>
+<p>제약이 없는 타입으로 어떤 타입의 값도 받을 수 있습니다. 그래서 타입의 결과를 예측할 수 없을 때 사용하면 유연한 대응을 할 수 있습니다.<br>자바나 C#의 <code>object</code>와 같다고 보시면 되겠습니다.</p>
+<p>JS의 Object는 컴파일 시점에 속성의 유무를 검사하지만 any 타입은 런타임 시점에 검사합니다.</p>
+<p>반드시 타입을 지정해야 한다면 <code>noImplicitAny</code>를 true로 선언하여 암묵적 형변환을 방지할 수 있습니다.</p>
+<ul>
+<li>array</li>
+</ul>
+<p>JS에서 기본적으로 사용하는 배열입니다. <code>let fruits: string[]</code>으로 사용하며 any가 와서 모든 타입을 받을 수 있습니다만 조금 제약하려면 <code>number | string | boolean</code>같은 유니언 타입으로 제약을 할 수 있습니다.</p>
+<ul>
+<li>Generic</li>
+</ul>
+<p>Array<t>의 형식으로 선언하며 나중에 좀 더 자세히 배울것입니다.<br>배열과 달리 내장 타입 외 객체타입도 받을 수 있습니다. 배열 요소로 익명함수를 받으려면 람다식을 사용해 편하게 <code>let nums: Array&lt;() =&gt; string&gt;</code> 같은 방식으로 받을 수 있습니다.</t></p>
+<ul>
+<li>Tuple</li>
+</ul>
+<p>n개의 요소가 이뤄진 배열에 대응하는 타입을 의미합니다. 특정 n개에 대해 타입을 강제할 수 있으며 간단히 예를 들어 보겠습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let a = [string, number]=[&quot;tuple&quot;, number, 문자나 숫자...]</span><br></pre></td></tr></table></figure>
+<p>대충 이런 식이 있다고 했을 때 우측 값배열의 첫 번째는 튜플의 첫 번째 타입인 string, 다음 두 번째는 튜플의 두 번째 타입인 number를 받고, 그 이후에 들어오는 값은 string과 number 중 아무거나 다 받게 됩니다.</p>
+<ul>
+<li>void, null, undefined</li>
+</ul>
+<p>함수의 반환값이 없을 때 void나 undefined를 받을 수 있습니다. 그렇다고 변수가 값이 할당되지 않을 떄를 나타내기 위하여 null은 권장하지 않습니다.<br>이러한 불안정한 연산을 막기 위해 tsconfig.json에서 <code>strictNullChecks</code> 옵션을 true로 설정해 막을 수 있습니다.</p>
+<p>undefined의 경우는 초기화 되지 않았음을 의미하지만 null은 null 자체로 하나의 값이기 때문에 신중해서 사용할 필요가 있습니다.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/12/typescript/day1/" data-id="cjqt1b71800016lmilqo4qowb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/06/netty/day4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">네티 알아보기 4일차 - 이벤트 핸들러</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/About/">About</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">1월 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">12월 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/12/typescript/day1/">타입스크립트 1</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/06/netty/day4/">네티 알아보기 4일차 - 이벤트 핸들러</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/29/netty/day3/">네티 알아보기 3일차 - 채널 파이프라인 + 코덱</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/25/netty/day2/">네티 알아보기 2일차 - 부트스트랩</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/24/netty/day1/">네티 알아보기 1일차 - 기본 환경설정</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 halim j<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
