@@ -62,6 +62,95 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-typescript/day2" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/19/typescript/day2/" class="article-date">
+  <time datetime="2019-01-18T15:00:00.000Z" itemprop="datePublished">2019-01-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/19/typescript/day2/">타입스크립트 2</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="타입스크립트의-제어문"><a href="#타입스크립트의-제어문" class="headerlink" title="타입스크립트의 제어문"></a>타입스크립트의 제어문</h2><p>제어문에는 크게 보면 조건문과 반복문으로 볼 수 있습니다.<br>기본적으로 타 언어와 동작하는것은 같습니다만 타입스크립트에서의 제어문을 보도록 하겠습니다.</p>
+<h3 id="조건문"><a href="#조건문" class="headerlink" title="조건문"></a>조건문</h3><ul>
+<li>if</li>
+</ul>
+<p>조건의 참과 거짓에 따라 분기를 수행하는 것은 똑같습니다.<br>기본적으로 조건에는 참과 거짓을 판단할 수 있는 boolean타입이 와야 한다고 알고 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (조건) &#123;</span><br><span class="line">    //하고싶은것</span><br><span class="line">&#125; else if(조건) &#123;</span><br><span class="line">    //하고싶은것</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    //하고싶은것</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>타입스크립트에서의 조건문은 타 자바스크립트와 다르게 숫자나 문자가 올 수도 있습니다.<br>0이면 <code>false</code> 0이 아닌 값은 <code>true</code>로 들어오게 되고 빈 문자열이 오면 <code>false</code> 값이 있으면 <code>true</code>로 옵니다.<br>이러한 특징을 가지게 된 것은 JS의 특유한 if설정이 아닐까 생각합니다.<br>JS에서는 0, null, “”, undefined등의 값이 들어오면 if문에서 false로 보내버리는 특성을 가지고 있습니다.</p>
+<p>예를 들어, 0 체크를 if로 한다면 JAVA에서는 <code>if(변수 == 0)</code> 이런 식으로 들어와야 하지만 JS에서는 <code>if(변수)</code>만 하면 체크가 됩니다.<br>참고 : <a href="https://stackoverflow.com/questions/5515310/is-there-a-standard-function-to-check-for-null-undefined-or-blank-variables-in" target="_blank;">is-there-a-standard-function-to-check-for-null-undefined-or-blank-variables-in</a></p>
+<ul>
+<li>switch</li>
+</ul>
+<p>자바스크립트나 타 언어의 switch와 같습니다.<br>특정 값일 경우 <code>break</code>를 만날때까지 계속 실행하는 식이죠.<br>모두 해당되지 않을 경우 마지막에 default를 만나면 실행되는 것 까지 같습니다.<br>보통 타입스크립트의 경우 하나의 변수에 대해 타입을 선언해 특정 타입만 받도록 쓰지만 모든 타입에 대해 받아서 switch문을 구성하고자 한다면 최상위 타입인 any를 통해 구현 가능합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">switch(command) &#123;</span><br><span class="line">    case 값:</span><br><span class="line">        //하고싶은것</span><br><span class="line">        break;</span><br><span class="line">    case 값:</span><br><span class="line">        //하고싶은것</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        //하고싶은것</span><br><span class="line">        break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>noFallthroughCasesInSwitch</code> 옵션을 걸어 break 관계없이 해당 구문에서 자동으로 탈출하도록 처리할 수 있지만 기본적으로 break를 꼭 넣도록 합시다.</p>
+<h3 id="타입스크립트의-반복문"><a href="#타입스크립트의-반복문" class="headerlink" title="타입스크립트의 반복문"></a>타입스크립트의 반복문</h3><p>타입스크립트에서도 ECMA스크립트의 발전에 맞춰 여러가지 반복문을 지원하고 있습니다.<br>여기서는 많이 아시는 for, while문에 대해 알아보겠습니다.</p>
+<ul>
+<li>for</li>
+</ul>
+<p>가장 기본적인 반복문에 대해 알아보겠습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (변수 초기화; 조건식; 증감식) &#123;</span><br><span class="line">    하고싶은것;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ES5에서는 var만 지원하여 변수의 범위에 대해 생각하면서 작성해야 했지만 ES6에서 let(블록레벨 스코프)의 추가로 인해 그런 걱정이 많이 줄어들었으니 부담없이 치시면 되겠습니다.<br>타입스크립트에서의 사용법은 다음과 같습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(let i: number = 0; i &lt; 2; i++;)&#123;</span><br><span class="line">    하고싶은것;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>for … in</li>
+</ul>
+<p>배열이나 객체를 순화할 때 사용하는 for문입니다.</p>
+<p>배열순회의 예시 :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let islands = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;];</span><br><span class="line"></span><br><span class="line">for (let index in islands)&#123;</span><br><span class="line">    console.log(index, islands[index]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>객체순회의 예시 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let fruits = &#123;&quot;a&quot;:&quot;apple&quot;, &quot;b&quot;:&quot;banana&quot;, &quot;c&quot;:&quot;cherry&quot;&#125;;</span><br><span class="line"></span><br><span class="line">for (let prop in fruits)&#123;</span><br><span class="line">    console.log(prop, fruits[property]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>배열을 순회할 때는 index에 숫자가 들어오지만 객체를 순회할 때는 키 값이 들어옵니다.</p>
+<ul>
+<li>for … of</li>
+</ul>
+<p>ES6에서 추가된 특징으로 <code>객체[프로퍼티]</code>를 써서 값을 가져왔던 for…in과 다르게 바로 값을 가져올 수 있는 특징을 가지고 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let islands = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;];</span><br><span class="line"></span><br><span class="line">for (let index of islands)&#123;</span><br><span class="line">    console.log(index, islands[index]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>이터러블(iterable, 반복가능)한 객체인 배열, 문자열, DOM, Map, Set등 에서 바로 값을 가져올 수 있습니다.<br>특정한 값이 변하지 않기 떄문에 const를 쓸 수도 있으며 호이스팅을 예방할 수도 있습니다.<br>for … of를 커스텀 객체에서 구현하고자 한다면 <code>[Symbol.iterator]()</code>를 구현하면 사용 가능합니다.</p>
+<ul>
+<li>while</li>
+</ul>
+<p>타 언어 처럼 조건문이 거짓일 때 까지 반복해서 실행합니다.<br>제 경험상 대부분 언제 끝날지 모르는 곳에서 많이 쓰였던 것 같습니다.<br>예를 들면, 소켓통신 수/송신 대기정도 있겠네요.</p>
+<p>기본적인 사용법은 다음과 같습니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">while(조건문)&#123;</span><br><span class="line">    하고싶은것;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>예를 들어 하나만 작성해 본다면 다음과 같이 쓸 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let count: number = 1;</span><br><span class="line">let sum: number = 0;</span><br><span class="line"></span><br><span class="line">while (count &lt;= 100) &#123;</span><br><span class="line">    sum += count;</span><br><span class="line">    count++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(sum);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>do … while</li>
+</ul>
+<p>while과 다르게 일단 한 번은 실행해본다는 특징이 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">do&#123;</span><br><span class="line">    하고싶은것;</span><br><span class="line">&#125;while(조건문);</span><br></pre></td></tr></table></figure>
+<p>이상으로 반복문 정리를 마치겠습니다.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/19/typescript/day2/" data-id="cjr375kso000747miw9ulynl0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-netty/day5" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/13/netty/day5/" class="article-date">
@@ -147,7 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/13/netty/day5/" data-id="cjquij8xg00039kmirzwyat0d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/13/netty/day5/" data-id="cjr375ksm000447mimcuy9p4g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -325,7 +414,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/12/typescript/day1/" data-id="cjquij8xi00049kmimxxjbp49" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/12/typescript/day1/" data-id="cjr375ksn000647mihmnykfxi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +496,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/06/netty/day4/" data-id="cjquij8xc00019kmi1tmfbp1t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/06/netty/day4/" data-id="cjr375kss000b47mi1nh0qjt1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -511,7 +600,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/29/netty/day3/" data-id="cjquij8xm00089kmisbvnms9j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/29/netty/day3/" data-id="cjr375kst000e47mifyfnrate" class="article-share-link">Share</a>
       
       
     </footer>
@@ -598,7 +687,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/25/netty/day2/" data-id="cjquij8xj00059kmifb5dfb3c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/25/netty/day2/" data-id="cjr375ksr000a47mi6sq6v4tc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -678,7 +767,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/24/netty/day1/" data-id="cjquij8xk00079kmimjijuqk8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/24/netty/day1/" data-id="cjr375ksl000347mi0nz8qqe4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -726,7 +815,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/23/about/about/" data-id="cjquij8x700009kmijv5c6nvj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/23/about/about/" data-id="cjr375ks7000047mi7eqbz3s5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -774,6 +863,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/19/typescript/day2/">타입스크립트 2</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/13/netty/day5/">네티 알아보기 5일차 - 바이트 버퍼</a>
           </li>
         
@@ -787,10 +880,6 @@
         
           <li>
             <a href="/2018/12/29/netty/day3/">네티 알아보기 3일차 - 채널 파이프라인 + 코덱</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/25/netty/day2/">네티 알아보기 2일차 - 부트스트랩</a>
           </li>
         
       </ul>
