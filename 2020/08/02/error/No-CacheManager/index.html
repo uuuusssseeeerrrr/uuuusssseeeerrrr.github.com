@@ -11,7 +11,7 @@
 
     <title>
         
-        About - undefined
+        No CacheManager Eventlistener .... - undefined
         
     </title>
 
@@ -75,7 +75,7 @@
                     <span>아카이브</span>
                 </a>
             </li>
-            <li  class=active >
+            <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
                     <span>about</span>
@@ -91,6 +91,10 @@
             
         </ul>
     </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
     
 </div>
 
@@ -116,16 +120,42 @@
     <div class="index-middle">
         <!-- Main Content -->
         
-<div class="post-content ">
-    <p>기록할때 쓰는 블로그 게시글 복구중입니다.</p>
-<p>간단한 자기소개 </p>
-<p>SI현장을 돌아다니는 중</p>
-<p>도서관 프로젝트 : 2020.04 ~ 2020.11(예정)</p>
 
-    
-    <div id="comment-container">
+
+<div class="post-container">
+    <div class="post-title">
+        No CacheManager Eventlistener ....
     </div>
-    <div id="lv-container">
+
+    <div class="post-meta">
+        <span class="attr">등록시간：<span>2020-08-02 13:25:07</span></span>
+        
+        <span class="attr">태그：/
+        
+        <a class="tag" href="/tags/#error" title="error">error</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">방문：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>No CacheManagerEventListenerFactory class specified. Skipping… 이렇게 스프링에서 오류는 아니고 메시지가 뜨는 경우가 있다.</p>
+<p>스프링 캐시를 사용할 때 정상적으로 설정되지 않아서 그런것인데 설정에 오류가 있어서 발생한다.</p>
+<p>개인적으로 해결했던 경우는 ehcache.xml에서 xml문법이 발생해서 정상적으로 설정되지 않았었다.</p>
+<p>그래서 설정해서 해결했다.</p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
     </div>
 </div>
 
@@ -167,7 +197,7 @@
     // We expose some of the variables needed by the front end
     window.hexo_search_path = "search.json"
     window.hexo_root = "/"
-    window.isPost = false
+    window.isPost = true
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 
